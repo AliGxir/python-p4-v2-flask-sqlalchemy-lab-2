@@ -36,6 +36,7 @@ class Item(db.Model, SerializerMixin):
     price = db.Column(db.Float)
     
     reviews = db.relationship("Review", back_populates="item")
+    customer = association_proxy("reviews", "customer")
     
     serialize_rules = ("-reviews.item",)
 
@@ -47,7 +48,7 @@ class Review(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     comment = db.Column(db.String)
-    customer_id = db.Column(db. ForeignKey("customers.id"))
+    customer_id = db.Column(db.Integer, db.ForeignKey("customers.id"))
     item_id = db.Column(db. ForeignKey("items.id"))
     
     customer = db.relationship("Customer", back_populates="reviews")
